@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -158,6 +159,19 @@ public class ExceptionProcessor {
         String exceptionMessage = badCredentialsException.getMessage();
 
         log.debug(badCredentialsException.getMessage());
+
+        return generateErrorInfo(request, messageId, exceptionMessage);
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorInfo emptyResultDataAccessException(HttpServletRequest request, EmptyResultDataAccessException emptyResultDataAccessException) {
+
+        String messageId = "error.resttemplate.4xx";
+        String exceptionMessage = emptyResultDataAccessException.getMessage();
+
+        log.debug(emptyResultDataAccessException.getMessage());
 
         return generateErrorInfo(request, messageId, exceptionMessage);
     }

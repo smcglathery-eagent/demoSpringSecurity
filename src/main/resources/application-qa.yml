@@ -1,0 +1,9 @@
+spring:
+  config:
+    activate:
+      on-profile: qa
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    com.dci.demo: INFO

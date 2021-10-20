@@ -1,7 +1,14 @@
 DROP TABLE IF EXISTS user;
-
 CREATE TABLE user (
-    id number,
-    username varchar(100) not null,
-    password varchar(256) not null
+    id IDENTITY NOT NULL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(256) NOT NULL
+);
+
+DROP TABLE IF EXISTS images;
+CREATE TABLE images (
+    id IDENTITY NOT NULL PRIMARY KEY,
+    fileName VARCHAR(100) NOT NULL UNIQUE,
+    contentType VARCHAR(256) NOT NULL,
+    contents BLOB NOT NULL
 );

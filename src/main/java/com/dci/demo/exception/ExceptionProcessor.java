@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
@@ -172,6 +173,19 @@ public class ExceptionProcessor {
         String exceptionMessage = emptyResultDataAccessException.getMessage();
 
         log.debug(emptyResultDataAccessException.getMessage());
+
+        return generateErrorInfo(request, messageId, exceptionMessage);
+    }
+
+    @ExceptionHandler(MultipartException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorInfo multipartException(HttpServletRequest request, MultipartException multipartException) {
+
+        String messageId = "error.resttemplate.4xx";
+        String exceptionMessage = multipartException.getMessage();
+
+        log.debug(multipartException.getMessage());
 
         return generateErrorInfo(request, messageId, exceptionMessage);
     }

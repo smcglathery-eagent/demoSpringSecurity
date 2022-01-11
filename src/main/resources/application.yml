@@ -15,6 +15,9 @@ spring:
       generate_statistics: true
       format_sql: true
     show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 jwt.secret: thisIsMySecretPassword
 

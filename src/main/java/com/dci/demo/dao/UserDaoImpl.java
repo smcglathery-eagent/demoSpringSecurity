@@ -25,7 +25,7 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 
     public User getUserByUsername(String username) {
 
-        final String query = "SELECT id, username, password FROM user WHERE username = :username";
+        final String query = "SELECT id, username, password FROM users WHERE username = :username";
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("username", username);

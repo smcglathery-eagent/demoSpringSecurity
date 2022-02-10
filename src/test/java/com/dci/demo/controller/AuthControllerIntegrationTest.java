@@ -44,9 +44,81 @@ public class AuthControllerIntegrationTest {
     }
 
     @Test()
-    public void createAuthenticationToken_invalidUsername() throws Exception {
+    public void createAuthenticationToken_missingUsername() throws Exception {
 
-        String requestJson = readFile(new ClassPathResource("json/auth_invalidUsername.json").getFile());
+        String requestJson = readFile(new ClassPathResource("json/auth/auth_missingUsername.json").getFile());
+        httpEntity = new HttpEntity<>(requestJson, httpHeaders);
+        uri = "/authenticate";
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.POST, httpEntity, String.class);
+
+        ErrorInfo errorInfo = new ObjectMapper().readValue(response.getBody(), ErrorInfo.class);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertEquals("Bad Request.", errorInfo.getErrorMessage());
+        Assertions.assertTrue(errorInfo.getExceptionMessage().contains("Username must not be blank"));
+    }
+
+    @Test()
+    public void createAuthenticationToken_emptyUsername() throws Exception {
+
+        String requestJson = readFile(new ClassPathResource("json/auth/auth_emptyUsername.json").getFile());
+        httpEntity = new HttpEntity<>(requestJson, httpHeaders);
+        uri = "/authenticate";
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.POST, httpEntity, String.class);
+
+        ErrorInfo errorInfo = new ObjectMapper().readValue(response.getBody(), ErrorInfo.class);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertEquals("Bad Request.", errorInfo.getErrorMessage());
+        Assertions.assertTrue(errorInfo.getExceptionMessage().contains("Username must not be blank"));
+    }
+
+    @Test()
+    public void createAuthenticationToken_missingPassword() throws Exception {
+
+        String requestJson = readFile(new ClassPathResource("json/auth/auth_missingPassword.json").getFile());
+        httpEntity = new HttpEntity<>(requestJson, httpHeaders);
+        uri = "/authenticate";
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.POST, httpEntity, String.class);
+
+        ErrorInfo errorInfo = new ObjectMapper().readValue(response.getBody(), ErrorInfo.class);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertEquals("Bad Request.", errorInfo.getErrorMessage());
+        Assertions.assertTrue(errorInfo.getExceptionMessage().contains("Password must not be blank"));
+    }
+
+    @Test()
+    public void createAuthenticationToken_emptyPassword() throws Exception {
+
+        String requestJson = readFile(new ClassPathResource("json/auth/auth_emptyPassword.json").getFile());
+        httpEntity = new HttpEntity<>(requestJson, httpHeaders);
+        uri = "/authenticate";
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.POST, httpEntity, String.class);
+
+        ErrorInfo errorInfo = new ObjectMapper().readValue(response.getBody(), ErrorInfo.class);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertEquals("Bad Request.", errorInfo.getErrorMessage());
+        Assertions.assertTrue(errorInfo.getExceptionMessage().contains("Password must not be blank"));
+    }
+
+    @Test()
+    public void createAuthenticationToken_badCredentials() throws Exception {
+
+        String requestJson = readFile(new ClassPathResource("json/auth/auth_badCredentials.json").getFile());
         httpEntity = new HttpEntity<>(requestJson, httpHeaders);
         uri = "/authenticate";
 
@@ -64,7 +136,7 @@ public class AuthControllerIntegrationTest {
     @Test
     public void createAuthenticationToken() throws Exception {
 
-        String requestJson = readFile(new ClassPathResource("json/auth.json").getFile());
+        String requestJson = readFile(new ClassPathResource("json/auth/auth.json").getFile());
         httpEntity = new HttpEntity<>(requestJson, httpHeaders);
         uri = "/authenticate";
 

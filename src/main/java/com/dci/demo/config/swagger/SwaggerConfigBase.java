@@ -1,4 +1,4 @@
-package com.dci.demo.config;
+package com.dci.demo.config.swagger;
 
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.oas.annotations.EnableOpenApi;

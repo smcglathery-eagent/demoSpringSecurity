@@ -28,6 +28,7 @@ logging:
   level:
     root: INFO
     org.springframework.web: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG;
     com.dci.demo: DEBUG
   file:
     name: logs/demo.log

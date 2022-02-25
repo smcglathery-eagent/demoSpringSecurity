@@ -1,4 +1,4 @@
-package com.dci.demo.config;
+package com.dci.demo.config.swagger;
 
 import com.dci.demo.exception.ErrorInfo;
 import com.fasterxml.classmate.TypeResolver;
